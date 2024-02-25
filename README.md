@@ -43,7 +43,7 @@ Forecastify is a weather app that allows users to easily get up-to-date weather 
    add the following line, replacing YOUR_ACTUAL_API_KEY with your OpenWeatherMap API key:
 
    ```bash
-   REACT_API_KEY=<YOUR_API_KEY>
+   VITE_API_KEY=<YOUR_API_KEY>
    ```
 
 5. Start the app:
