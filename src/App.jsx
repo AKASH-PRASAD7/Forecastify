@@ -4,6 +4,7 @@ import WeatherCard from "./components/WeatherCard";
 import Background from "./components/Background";
 import MiniWeatherCard from "./components/MiniWeatherCard";
 import extractData from "./utils/extractData";
+import LoadingCard from "./components/Loading";
 
 function App() {
   const [data, setData] = useState(null);
@@ -11,6 +12,7 @@ function App() {
   const [city, setCity] = useState("Delhi");
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${
     import.meta.env.VITE_API_KEY
@@ -29,6 +31,8 @@ function App() {
       }
     } catch (err) {
       setError("City not found");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -75,7 +79,9 @@ function App() {
             placeholder="Enter your city name"
           />
           <Background weather={data && data?.weather[0]?.icon} />
-          {error ? (
+          {loading ? (
+            <LoadingCard />
+          ) : error ? (
             <>
               <p className="text-2xl shadow-2xl shadow-slate-800 font-semibold text-center m-4 p-2 text-red-600 bg-red-300 rounded-xl">
                 ⚠️ {error}
