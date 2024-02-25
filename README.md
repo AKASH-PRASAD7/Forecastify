@@ -2,6 +2,12 @@
 
 Forecastify is a weather app that allows users to easily get up-to-date weather information for any city. With a clean and intuitive interface, users can quickly search for a city and access weather data for today as well as the forecast for the next 5 days.
 
+## Screenshots
+
+![1](https://github.com/AKASH-PRASAD7/Forecastify/assets/110546856/43e281bc-978b-4a4a-b20d-a8b341ca3b34)
+
+![2](https://github.com/AKASH-PRASAD7/Forecastify/assets/110546856/12c3742e-cabc-4393-8d3d-02b97f20a564)
+
 ## Features
 
 - **Current Weather:** Get real-time weather data for today, including temperature, humidity, wind speed, and more.
