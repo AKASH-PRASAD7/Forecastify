@@ -1,18 +1,20 @@
+function getCurrentDate(date) {
+  const dateObject = new Date(date);
+  return dateObject.getDate();
+}
+
 function getDailyWeatherData(weatherData) {
-  const { list = [] } = weatherData; // Destructure the list of weather data
-  const dailyWeather = {};
+  let currDate = getCurrentDate(weatherData.list[0].dt_txt);
+  let dailyData = [];
 
-  list.forEach((dataPoint) => {
-    const dateText = new Date(dataPoint.dt_txt).toDateString(); // Convert timestamp to a more readable date string
-
-    // Check if we already have an entry for this date, only set it if we don't
-    if (!dailyWeather[dateText]) {
-      dailyWeather[dateText] = dataPoint;
+  for (let i = 0; i < weatherData.list.length; i++) {
+    let currentDate = getCurrentDate(weatherData.list[i].dt_txt);
+    if (currentDate !== currDate) {
+      dailyData.push(weatherData.list[i]);
+      currDate = currentDate;
     }
-  });
-
-  // Return an array of the filtered daily weather data
-  return Object.values(dailyWeather);
+  }
+  return dailyData;
 }
 
 export default getDailyWeatherData;

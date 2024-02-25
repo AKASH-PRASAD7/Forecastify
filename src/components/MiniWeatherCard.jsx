@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useEffect, useState } from "react";
 import clouds from "../assets/icons/cloud.png";
 import sun from "../assets/icons/sun.png";
 import rain from "../assets/icons/rain.png";
@@ -11,13 +10,12 @@ import humidityimg from "../assets/icons/humidity.png";
 import mintemp from "../assets/icons/mintemp.png";
 import maxtemp from "../assets/icons/maxtemp.png";
 
-const WeatherCard = ({
-  place,
+const MiniWeatherCard = ({
   weather,
   temp,
   temp_min,
   temp_max,
-  feels_like,
+  date,
   icon,
   humidity,
   wind,
@@ -101,43 +99,60 @@ const WeatherCard = ({
     }
   }, [icon]);
 
+  function formatDateString(inputDateString) {
+    const dateObject = new Date(inputDateString);
+    const formattedDate = dateObject.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+
+    return formattedDate;
+  }
+
   return (
     <>
       <section>
-        <div className="w-[22rem] text-white   glassCard mb-4 p-4">
-          <div className="flex w-full justify-center flex-col items-center gap-4  mb-2">
-            <img src={WeatherIcon} alt={weather} className="w-16" />
-            <p className="font-bold text-5xl flex justify-center items-center">
-              {temp} &deg;C
-            </p>
-            <p className="font-bold text-lg flex justify-center items-center">
-              Feels like {feels_like} &deg;C
-            </p>
+        <div className="glassCard text-white  p-4 flex flex-col">
+          <p className="text-center font-semibold">{formatDateString(date)}</p>
+          <hr />
+          <div className="w-full flex justify-center items-center flex-1">
+            {/* Weather Icon */}
+            <img
+              src={WeatherIcon}
+              alt={weather}
+              className="w-[4rem] h-[4rem]"
+            />
           </div>
-          <div className="font-bold text-center text-xl">{place}</div>
-          <div className="w-full flex justify-between items-center ">
-            <p className="flex-1 text-center p-2">
-              {new Date().toDateString()}
-            </p>
-          </div>
+
+          <p className="text-center font-bold text-2xl">{temp}&deg;C</p>
           <div className="w-full flex  justify-evenly items-center mt-2 gap-4">
             <div className="flex flex-col justify-center items-center">
               <img src={windy} alt="wind" className="w-8" />
-              <span className="font-normal">{wind} m/s</span>
+              <span className="font-semibold">{wind} m/s</span>
             </div>
             <div className="flex flex-col justify-center items-center">
               <img src={humidityimg} alt="humidity" className="w-8" />
-              <span className="font-normal">{humidity} %</span>
+              <span className="font-semibold">{humidity} %</span>
             </div>
           </div>
-          <div className="flex justify-evenly items-center">
-            <div className="w-full p-3 mt-4 flex flex-col justify-between items-center">
-              <img src={mintemp} alt="minimum temperature" className="w-8" />
-              <p className="text-lg">{temp_min}</p>
+          <div className="flex justify-between flex-col items-center mt-2">
+            <div className="flex items-center">
+              <img
+                src={mintemp}
+                alt="min temperature"
+                className="w-5 h-5 mr-1"
+              />
+              <span className="font-semibold">{temp_min}&deg;C</span>
             </div>
-            <div className="w-full p-3 mt-4 flex flex-col justify-between items-center">
-              <img src={maxtemp} alt="maximum temperature" className="w-8" />
-              <p className="text-lg">{temp_max}</p>
+            <div className="flex items-center">
+              <img
+                src={maxtemp}
+                alt="max temperature"
+                className="w-5 h-5 mr-1"
+              />
+              <span className="font-semibold">{temp_max}&deg;C</span>
             </div>
           </div>
         </div>
@@ -146,4 +161,4 @@ const WeatherCard = ({
   );
 };
 
-export default WeatherCard;
+export default MiniWeatherCard;

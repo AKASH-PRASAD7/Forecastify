@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import WeatherCard from "./components/WeatherCard";
 import Background from "./components/Background";
-import cloud from "./assets/icons/cloud.png";
+import MiniWeatherCard from "./components/MiniWeatherCard";
+import extractData from "./utils/extractData";
 
 function App() {
   const [data, setData] = useState(null);
+  const [weeklyData, setWeeklyData] = useState(null);
   const [city, setCity] = useState("Delhi");
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
@@ -26,26 +28,27 @@ function App() {
         setError("");
       }
     } catch (err) {
-      setError(err.message);
+      setError("City not found");
     }
   };
 
-  // const getWeeklyWeather = async () => {
-  //   let urlWeek = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${
-  //     import.meta.env.VITE_API_KEY
-  //   }&units=metric`;
+  const getWeeklyWeather = async () => {
+    let urlWeek = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${
+      import.meta.env.VITE_API_KEY
+    }&units=metric`;
 
-  //   try {
-  //     const res = await fetch(url);
-  //     const dataObj = await res.json();
-  //   } catch (err) {
-  //     setError(err.message);
-  //   }
-  // };
+    try {
+      const res = await fetch(urlWeek);
+      const dataObj = await res.json();
+      setWeeklyData(extractData(dataObj));
+    } catch (err) {
+      setError("City not found");
+    }
+  };
 
   useEffect(() => {
     getWeather();
-    // getWeeklyWeather();
+    getWeeklyWeather();
   }, [city]);
 
   const handleKeyDown = (event) => {
@@ -74,7 +77,7 @@ function App() {
           <Background weather={data && data?.weather[0]?.icon} />
           {error ? (
             <>
-              <p className="text-2xl font-semibold text-center m-4 p-2 text-red-600 bg-red-300 rounded-xl">
+              <p className="text-2xl shadow-2xl shadow-slate-800 font-semibold text-center m-4 p-2 text-red-600 bg-red-300 rounded-xl">
                 ⚠️ {error}
               </p>
             </>
@@ -93,6 +96,22 @@ function App() {
               />
             )
           )}
+        </section>
+        <section className="flex flex-wrap mb-8 gap-4 mx-8 mt-2 justify-evenly">
+          {!error &&
+            weeklyData &&
+            weeklyData.map((day) => (
+              <MiniWeatherCard
+                weather={day.weather[0].main}
+                temp={day.main.temp}
+                temp_min={day.main.temp_min}
+                temp_max={day.main.temp_max}
+                date={day.dt_txt}
+                icon={day.weather[0].icon}
+                wind={day.wind.speed}
+                humidity={day.main.humidity}
+              />
+            ))}
         </section>
       </main>
     </>
