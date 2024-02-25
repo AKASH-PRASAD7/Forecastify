@@ -1,4 +1,4 @@
-# Forecastify ⛈️
+# Forecastify ⛈️ (https://akash-forecastify.vercel.app/)
 
 Forecastify is a weather app that allows users to easily get up-to-date weather information for any city. With a clean and intuitive interface, users can quickly search for a city and access weather data for today as well as the forecast for the next 5 days.
 
